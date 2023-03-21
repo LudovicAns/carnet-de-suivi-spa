@@ -1,10 +1,10 @@
 import { Document, model, Schema } from "mongoose";
 
-interface IAnalyse extends Document {
+export interface IAnalyse extends Document {
     equipement: string;
     ph: number;
     createdAt: Date;
-    updatedAt: Date;
+    updatedAt?: Date;
 }
 
 const AnalyseSchema: Schema = new Schema({
@@ -14,6 +14,6 @@ const AnalyseSchema: Schema = new Schema({
     updatedAt: { type: Date, required: false }
 });
 
-const AnalyseModel = model<AnalyseSchema>('Analyse', AnalyseSchema);
+const AnalyseModel = model<IAnalyse>('Analyse', AnalyseSchema);
 
 export default AnalyseModel;
