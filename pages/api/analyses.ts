@@ -7,6 +7,7 @@ export default async function handler (
     req: NextApiRequest,
     res: NextApiResponse) {
 
+    // todo: faire la connexion au lancement du serveur, pose des soucis lors de la récupération des données par le front.
     const { method } = req;
     let connection: Connection;
 
@@ -27,7 +28,7 @@ export default async function handler (
 
             let analyses = await promise;
 
-            res.status(200).json(analyses);
+            res.status(200).json({body : analyses});
             break
         case 'POST':
             let { body } = req;
