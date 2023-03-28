@@ -1,28 +1,15 @@
-import mongoose, {Connection, ConnectOptions} from "mongoose";
+import mongoose, {ConnectOptions, Mongoose} from "mongoose";
 
 const MONGODB_URI: string | undefined = process.env.MONGODB_URI;
 
-let connection: Connection;
-
-function connectToDB(): void {
-
-    if (!MONGODB_URI) {
-        throw new Error("Vous devez définir la variable d'environnement MONGODB_URI dans .env.local");
-    }
-
-    const options: ConnectOptions = {};
-
-    mongoose.connect(MONGODB_URI, options)
-        .then(mongoose => connection = <Connection>mongoose.connection)
-        .catch(error => console.error(error))
+if (!MONGODB_URI) {
+    throw new Error("Vous devez définir la variable d'environnement MONGODB_URI dans .env.local");
 }
 
-connectToDB();
+const options: ConnectOptions = {};
 
-export default function getConnection(): Connection {
-    if (!connection) {
-        throw new Error("Vous devez être connecté à la base de donnée avant de récupérer la connexion getConnection().");
-    } else {
-        return connection;
-    }
+const connectMongo = async (): Promise<Mongoose> => {
+    return mongoose.connect(MONGODB_URI, options);
 }
+
+export default connectMongo;

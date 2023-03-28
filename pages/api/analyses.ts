@@ -1,22 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import getConnection from "@/lib/dbConnect";
-import {AnyObject, Connection} from "mongoose";
+import {AnyObject, connection} from "mongoose";
 import {WithId} from "mongodb";
+import connectMongo from "@/lib/dbConnect";
 
 export default async function handler (
     req: NextApiRequest,
     res: NextApiResponse) {
 
-    // todo: faire la connexion au lancement du serveur, pose des soucis lors de la récupération des données par le front.
     const { method } = req;
-    let connection: Connection;
 
-    try {
-        connection = getConnection();
-    } catch (error) {
-        res.status(500).json({});
-        return;
-    }
+    await connectMongo();
 
     switch (method) {
         case 'GET':
@@ -30,7 +23,7 @@ export default async function handler (
 
             res.status(200).json({body : analyses});
             break
-        case 'POST':
+        case 'PUT':
             let { body } = req;
             body = {
                 ...body,
@@ -45,7 +38,7 @@ export default async function handler (
                 .catch(error => res.status(500).json(error))
             break
         default:
-            res.status(400).json({});
-            break
+            res.setHeader('Allow', ['GET', 'PUT'])
+            res.status(405).end(`Method ${method} Not Allowed`)
     }
 }
