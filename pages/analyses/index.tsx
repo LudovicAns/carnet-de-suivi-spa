@@ -30,7 +30,7 @@ export default function Analyses() {
                     const formattedDate = date.toLocaleDateString('fr-FR', DATE_OPTIONS);
 
                     return (
-                        <Card current={} segment={} key={analyse._id}>
+                        <Card current={''} segment={''} key={analyse._id}>
                             <h1>{`Analyse du ${formattedDate}`}</h1>
                             <Button content="Voir les résultats →" />
                         </Card>
