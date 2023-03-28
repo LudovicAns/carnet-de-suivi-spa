@@ -13,7 +13,7 @@ function connectToDB(): void {
     const options: ConnectOptions = {};
 
     mongoose.connect(MONGODB_URI, options)
-        .then(value => connection = value.connection)
+        .then(mongoose => connection = <Connection>mongoose.connection)
         .catch(error => console.error(error))
 }
 
